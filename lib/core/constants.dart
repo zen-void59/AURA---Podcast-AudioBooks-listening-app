@@ -11,8 +11,10 @@ class AppConstants {
 
   // In-app update configuration
   // Place a version.json file on your website or GitHub repository
-  static const String updateCheckUrl = 'https://raw.githubusercontent.com/ayushthakur/aura/main/version.json';
-  static const String defaultWebsiteUrl = 'https://aurapodcast.app';
+  static const String updateCheckUrl =
+      'https://raw.githubusercontent.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/main/version.json';
+  static const String defaultWebsiteUrl =
+      'https://zen-void59.github.io/AURA---Podcast-AudioBooks-listening-app/';
   static const String keyDismissedUpdateVersion = 'dismissed_update_version';
 
   // Hive boxes

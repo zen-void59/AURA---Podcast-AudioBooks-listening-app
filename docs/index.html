@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURA — Podcast & Audiobook Listening App</title>
+  <meta name="description" content="AURA is a beautifully crafted, open-source podcast and audiobook player for Android. Zero ads, background audio, offline-ready. Download the APK free.">
+  <meta name="keywords" content="AURA app, podcast app Android, audiobook app, free podcast player, APK download, LibriVox, open source audio">
+  <meta name="author" content="AURA Project">
+  <meta name="theme-color" content="#151411">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="AURA — Listen Without Distractions">
+  <meta property="og:description" content="A beautifully crafted, open-source podcast & audiobook app for Android. Zero ads. Free forever.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/app-icon.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AURA — Podcast & Audiobook App">
+  <meta name="twitter:description" content="Free, open-source podcast & audiobook player for Android. No ads. No bloat.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/app-icon.jpg">
+  <link rel="apple-touch-icon" href="assets/app-icon.jpg">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://zen-void59.github.io/AURA---Podcast-AudioBooks-listening-app/">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <!-- Preload critical assets -->
+  <link rel="preload" as="image" href="assets/phone-mockup.jpg">
+</head>
+<body class="page-transition">
+
+  <!-- Scroll Progress -->
+  <div id="scroll-progress" role="progressbar" aria-label="Scroll progress"></div>
+
+  <!-- Particle Canvas Background -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Cursor Glow -->
+  <div id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Toast Notification -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ════════════════════════════════════════════════════════
+       MOBILE NAV OVERLAY + DRAWER
+       ════════════════════════════════════════════════════════ -->
+  <div class="mobile-nav-overlay" id="mobile-overlay" aria-hidden="true"></div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <button class="mobile-nav-close modal-close" aria-label="Close menu">✕</button>
+    <a href="#features">Features</a>
+    <a href="#audiobooks">Audiobooks</a>
+    <a href="#download">Download</a>
+    <a href="#changelog">What's New</a>
+    <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app" target="_blank" rel="noopener">GitHub</a>
+    <a href="#download" class="btn-primary" id="mobile-dl-btn">⬇ Download APK</a>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════════
+       SITE HEADER / NAV
+       ════════════════════════════════════════════════════════ -->
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="nav-inner">
+        <!-- Logo -->
+        <a class="nav-logo" href="#" aria-label="AURA home">
+          <img src="assets/app-icon.jpg" alt="AURA icon" width="36" height="36">
+          <span class="nav-logo-text">AURA</span>
+        </a>
+
+        <!-- Desktop Links -->
+        <ul class="nav-links" role="list">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#audiobooks">Audiobooks</a></li>
+          <li><a href="#download">Download</a></li>
+          <li><a href="#changelog">What's New</a></li>
+          <li>
+            <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app"
+               target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          </li>
+        </ul>
+
+        <!-- Actions -->
+        <div class="nav-actions">
+          <button class="btn-theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme" title="Toggle light/dark">
+            ☀️
+          </button>
+          <a href="#download" class="btn-primary" id="nav-dl-btn">⬇ Get App</a>
+          <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════
+       HERO SECTION
+       ════════════════════════════════════════════════════════ -->
+  <section id="hero" aria-labelledby="hero-title">
+    <div class="hero-ambient" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-grid">
+
+        <!-- Left: Copy -->
+        <div class="hero-copy">
+          <div class="hero-eyebrow reveal">
+            <span class="t-label">Free & Open Source</span>
+            <span style="font-size:1rem">🎧</span>
+          </div>
+
+          <h1 class="hero-title reveal reveal-delay-1" id="hero-title">
+            Listen<br>
+            <span class="italic-em">Without</span><br>
+            Distractions
+          </h1>
+
+          <p class="hero-subtitle reveal reveal-delay-2">
+            AURA is a beautifully minimal podcast & audiobook player for Android.
+            No ads. No subscriptions. No bloat. Just pure, warm audio — the way it should be.
+          </p>
+
+          <div class="hero-cta-row reveal reveal-delay-3">
+            <a href="#download"
+               class="btn-primary btn-large"
+               id="hero-dl-btn"
+               data-download-url="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/releases/latest">
+              ⬇ Download APK Free
+            </a>
+            <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app"
+               class="btn-secondary btn-large"
+               target="_blank" rel="noopener">
+              ⭐ Star on GitHub
+            </a>
+          </div>
+
+          <div class="hero-social-proof reveal reveal-delay-4" aria-label="Open source community info">
+            <div class="proof-dots" aria-hidden="true">
+              <div class="proof-dot">🎧</div>
+              <div class="proof-dot">📚</div>
+              <div class="proof-dot">🎵</div>
+              <div class="proof-dot">🔊</div>
+            </div>
+            <p class="proof-text">
+              Built with ❤️ by the community &nbsp;·&nbsp; <strong>100% Free Forever</strong>
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: 3D Phone -->
+        <div class="hero-visual reveal reveal-delay-2">
+          <div class="device-scene">
+            <div class="device-tilt-wrapper">
+              <div class="device-frame">
+                <img src="assets/phone-mockup.jpg"
+                     alt="AURA app playing a podcast on Android phone"
+                     width="380" height="760"
+                     loading="eager">
+              </div>
+              <div class="device-badge" aria-label="Now playing indicator">
+                <span class="badge-icon">🎵</span>
+                <span>Now Playing</span>
+                <div class="waveform-mini" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .hero-grid -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       FEATURES SECTION
+       ════════════════════════════════════════════════════════ -->
+  <section id="features" aria-labelledby="features-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="t-label reveal">Why AURA?</span>
+        <h2 class="t-heading reveal reveal-delay-1" id="features-title">
+          Everything You Need.<br>Nothing You Don't.
+        </h2>
+        <p class="t-subheading reveal reveal-delay-2">
+          Built for focused listening. Handcrafted with warm aesthetics, background audio engine,
+          and an offline-first architecture that respects your time.
+        </p>
+      </header>
+
+      <div class="features-grid" role="list">
+
+        <article class="feature-card reveal" role="listitem">
+          <div class="feature-icon" aria-hidden="true">🚫</div>
+          <h3>Zero Ads. Ever.</h3>
+          <p>No banner ads, no audio interruptions, no tracking. AURA is free and will always be free — no strings attached.</p>
+        </article>
+
+        <article class="feature-card reveal" role="listitem">
+          <div class="feature-icon" aria-hidden="true">🔒</div>
+          <h3>Background Playback</h3>
+          <p>Full lock-screen controls, headset pause, and seamless notification media player — your audio keeps playing wherever you go.</p>
+        </article>
+
+        <article class="feature-card reveal" role="listitem">
+          <div class="feature-icon" aria-hidden="true">📚</div>
+          <h3>Free Classic Audiobooks</h3>
+          <p>Thousands of copyright-free audiobooks via LibriVox integration — Dostoevsky, Jane Austen, Premchand and more. All free.</p>
+        </article>
+
+        <article class="feature-card reveal" role="listitem">
+          <div class="feature-icon" aria-hidden="true">🎙️</div>
+          <h3>Global Podcast Discovery</h3>
+          <p>Browse and stream millions of podcasts. Smart search, episode history, and chapter-level progress tracking built in.</p>
+        </article>
+
+        <article class="feature-card reveal" role="listitem">
+          <div class="feature-icon" aria-hidden="true">⚡</div>
+          <h3>Blazing Fast Player</h3>
+          <p>Powered by media_kit and just_audio — variable speed (0.5× to 3×), sleep timer, crossfade, and millisecond-precise seeking.</p>
+        </article>
+
+        <article class="feature-card reveal" role="listitem">
+          <div class="feature-icon" aria-hidden="true">🌙</div>
+          <h3>Warm Cream + Dark Mode</h3>
+          <p>Two hand-tuned themes: Warm Linen Cream for daylight and Obsidian Midnight for your evening listening sessions.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       AUDIOBOOKS SHOWCASE (Marquee Carousel)
+       ════════════════════════════════════════════════════════ -->
+  <section id="audiobooks" aria-labelledby="audiobooks-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="t-label reveal">Free Classics</span>
+        <h2 class="t-heading reveal reveal-delay-1" id="audiobooks-title">
+          A Library in Your Pocket
+        </h2>
+        <p class="t-subheading reveal reveal-delay-2">
+          Thousands of public-domain masterpieces narrated by volunteers worldwide —
+          streamed directly inside AURA, chapter by chapter.
+        </p>
+      </header>
+    </div>
+
+    <!-- Full-width marquee (outside container for bleed) -->
+    <div class="books-track-wrapper reveal" aria-label="Featured audiobooks carousel">
+      <div class="books-track" role="list">
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #1a1915, #3d3120);">
+            <span>📖</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Crime and Punishment</h4><p>Fyodor Dostoevsky</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #2a1a2e, #4a2040);">
+            <span>📚</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Pride and Prejudice</h4><p>Jane Austen</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #0f1a2e, #1e3a5f);">
+            <span>🔬</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Sherlock Holmes</h4><p>Arthur Conan Doyle</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #1a2a1a, #2d4a2d);">
+            <span>🏛️</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Meditations</h4><p>Marcus Aurelius</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #2a1a0f, #5a3a1a);">
+            <span>🌊</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Nirmala</h4><p>Munshi Premchand</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #2e1a2e, #6a1a6a);">
+            <span>🎭</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Hamlet</h4><p>William Shakespeare</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #1a1a2e, #2a2a5f);">
+            <span>⚡</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Frankenstein</h4><p>Mary Shelley</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #2a2520, #5a4a3a);">
+            <span>🗺️</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Robinson Crusoe</h4><p>Daniel Defoe</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #1a2520, #2a5040);">
+            <span>🧘</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Siddhartha</h4><p>Hermann Hesse</p></div>
+        </div>
+
+        <div class="book-card" role="listitem" tabindex="0">
+          <div class="book-cover" style="background: linear-gradient(135deg, #251a1a, #5a2525);">
+            <span>❤️</span>
+            <div class="book-cover-overlay"><span class="t-label">LibriVox</span></div>
+          </div>
+          <div class="book-info"><h4>Anna Karenina</h4><p>Leo Tolstoy</p></div>
+        </div>
+
+      </div><!-- .books-track -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       DOWNLOAD SECTION
+       ════════════════════════════════════════════════════════ -->
+  <section id="download" aria-labelledby="download-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="t-label reveal">Get AURA</span>
+        <h2 class="t-heading reveal reveal-delay-1" id="download-title">
+          Install in 3 Simple Steps
+        </h2>
+        <p class="t-subheading reveal reveal-delay-2">
+          No app store required. Direct sideload — your device, your control.
+        </p>
+      </header>
+
+      <div class="download-grid">
+
+        <!-- Left: Steps -->
+        <div class="reveal reveal-delay-1">
+          <div class="version-pill" id="version-status-pill">
+            <span class="live-dot"></span>
+            <span>Latest Release</span>
+            <strong data-version-badge>v1.0.1</strong>
+          </div>
+
+          <div class="download-steps" role="list">
+            <div class="step-item" role="listitem">
+              <div class="step-num" aria-hidden="true">1</div>
+              <div class="step-text">
+                <h4>Enable Unknown Sources</h4>
+                <p>On your Android device, go to <em>Settings → Security → Install Unknown Apps</em> and allow your browser or file manager.</p>
+              </div>
+            </div>
+            <div class="step-item" role="listitem">
+              <div class="step-num" aria-hidden="true">2</div>
+              <div class="step-text">
+                <h4>Download the APK</h4>
+                <p>Tap the Download button below or scan the QR code to download the latest AURA APK directly to your phone.</p>
+              </div>
+            </div>
+            <div class="step-item" role="listitem">
+              <div class="step-num" aria-hidden="true">3</div>
+              <div class="step-text">
+                <h4>Open & Install</h4>
+                <p>Open the downloaded file from your notifications or Downloads folder, then tap <em>Install</em>. That's it!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Waveform visualizer -->
+          <div class="audio-visualizer" aria-hidden="true">
+            <div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div>
+            <div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div>
+            <div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div>
+            <div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div>
+            <div class="viz-bar"></div><div class="viz-bar"></div><div class="viz-bar"></div>
+          </div>
+        </div>
+
+        <!-- Right: Download Card -->
+        <div class="reveal reveal-delay-2">
+          <div class="download-card">
+            <div class="download-card-icon">
+              <img src="assets/app-icon.jpg" alt="AURA App Icon" width="80" height="80">
+            </div>
+            <h3>AURA</h3>
+            <p>Podcast & Audiobook Player<br>for Android · <span data-version-badge>v1.0.1</span></p>
+
+            <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/releases/latest"
+               id="main-download-btn"
+               data-download-url="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/releases/latest"
+               class="btn-download"
+               target="_blank" rel="noopener"
+               aria-label="Download AURA APK">
+              <span>⬇</span>
+              <span>Download Latest APK</span>
+            </a>
+
+            <button class="btn-qr" id="qr-btn" aria-label="Scan QR code to download on mobile">
+              <span>📱</span>
+              <span>Scan to Install on Mobile</span>
+            </button>
+
+            <div class="file-meta">
+              <span>📦 <span id="file-size">~35 MB</span></span>
+              <span>🤖 Android 5.0+</span>
+              <span>🔓 Open Source</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .download-grid -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       CHANGELOG / WHAT'S NEW
+       ════════════════════════════════════════════════════════ -->
+  <section id="changelog" aria-labelledby="changelog-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="t-label reveal">Release Notes</span>
+        <h2 class="t-heading reveal reveal-delay-1" id="changelog-title">What's New in AURA</h2>
+        <p class="t-subheading reveal reveal-delay-2">
+          Synced live from our repository. Always up-to-date.
+        </p>
+      </header>
+
+      <div class="changelog-card reveal reveal-delay-2">
+        <div class="changelog-header">
+          <h3 class="changelog-title">Release <span id="changelog-version">v1.0.1</span></h3>
+          <span class="version-pill" style="font-size:0.75rem; padding: 0.3rem 0.75rem;">
+            <span class="live-dot"></span> Latest
+          </span>
+        </div>
+        <div class="changelog-items" id="changelog-notes">
+          <div class="changelog-item">Enhanced audio playback resilience and buffering</div>
+          <div class="changelog-item">Improved LibriVox audiobook covers and chapter navigation</div>
+          <div class="changelog-item">Better battery efficiency and UI polish throughout</div>
+          <div class="changelog-item">Fixed playback pause on headset disconnect</div>
+          <div class="changelog-item">In-app update notifications so you never miss a release</div>
+        </div>
+        <div class="divider"></div>
+        <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/releases"
+           target="_blank" rel="noopener"
+           class="btn-secondary"
+           style="font-size:0.875rem;">
+          View all releases on GitHub ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="nav-logo" href="#" aria-label="AURA home" style="margin-bottom:0.5rem; display:inline-flex;">
+            <img src="assets/app-icon.jpg" alt="AURA" width="32" height="32" style="border-radius:8px;">
+            <span class="nav-logo-text" style="font-size:1.25rem; margin-left:0.5rem;">AURA</span>
+          </a>
+          <p>A beautifully minimal podcast & audiobook player. Built with love, shipped free. No ads, no subscriptions, no nonsense.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>App</h4>
+          <a href="#features">Features</a>
+          <a href="#audiobooks">Audiobooks</a>
+          <a href="#download">Download APK</a>
+          <a href="#changelog">What's New</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app" target="_blank" rel="noopener">GitHub Repository</a>
+          <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/issues" target="_blank" rel="noopener">Report a Bug</a>
+          <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/releases" target="_blank" rel="noopener">All Releases</a>
+          <a href="https://raw.githubusercontent.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/main/version.json" target="_blank" rel="noopener">version.json ↗</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 AURA Project · Open source under MIT License</p>
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <button class="btn-theme-toggle btn-secondary" style="border-radius:50%;width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;" aria-label="Toggle theme">
+            🌙
+          </button>
+          <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app"
+             target="_blank" rel="noopener"
+             class="btn-secondary"
+             style="padding:0.45rem 1rem;font-size:0.8rem;">
+            ⭐ Star on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════════════════════
+       QR CODE MODAL
+       ════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="qr-modal" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close QR modal">✕</button>
+
+      <div style="font-size:2.5rem; margin-bottom:0.5rem;">📱</div>
+      <h2 id="qr-modal-title" style="font-family:var(--font-serif);font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;">
+        Scan to Install
+      </h2>
+      <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0;">
+        Point your Android camera at this code to download AURA directly to your phone.
+      </p>
+
+      <div class="qr-container" id="qr-display"
+           data-url="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/releases/latest"
+           aria-label="QR code for AURA download">
+        <span class="spinner"></span>
+      </div>
+
+      <p style="font-size:0.78rem;color:var(--text-subtle);">
+        Or visit the <a href="https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/releases/latest"
+                        target="_blank" rel="noopener"
+                        style="color:var(--accent);">GitHub Releases page</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/main.js" defer></script>
+
+</body>
+</html>
