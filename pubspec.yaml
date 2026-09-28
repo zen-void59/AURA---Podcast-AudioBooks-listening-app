@@ -1,0 +1,68 @@
+name: aura
+description: "AURA — A minimalist podcast app with warm cream aesthetics."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Audio
+  just_audio: ^0.9.41
+  audio_service: ^0.18.15
+  audio_session: ^0.1.21
+  media_kit: ^1.1.11
+  media_kit_video: ^1.2.5
+  media_kit_libs_android_video: ^1.3.6
+  media_kit_libs_windows_video: ^1.0.9
+  media_kit_libs_macos_video: ^1.0.9
+  media_kit_libs_linux: ^1.1.3
+
+  # State Management
+  provider: ^6.1.2
+
+  # Local Database
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Networking & Streams
+  http: ^1.2.2
+  dio: ^5.7.0
+  youtube_explode_dart: ^3.1.0
+
+  # Images
+  cached_network_image: ^3.4.1
+
+  # UI
+  shimmer: ^3.0.0
+  lottie: ^3.1.2
+  flutter_svg: ^2.0.10+1
+  google_fonts: ^6.2.1
+  gap: ^3.0.1
+
+  # Utilities
+  intl: ^0.19.0
+  path_provider: ^2.1.4
+  shared_preferences: ^2.3.2
+  connectivity_plus: ^6.1.0
+  uuid: ^4.5.1
+  rxdart: ^0.28.0
+
+  cupertino_icons: ^1.0.8
+  url_launcher: ^6.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/

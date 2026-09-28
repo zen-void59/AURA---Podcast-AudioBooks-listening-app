@@ -1,0 +1,8 @@
+{
+  "latest_version": "1.0.1",
+  "version_code": 2,
+  "title": "AURA Update Available!",
+  "release_notes": "• Enhanced audio playback resilience and buffering\n• Improved LibriVox audiobook covers and chapters\n• Better battery efficiency and UI polish\n• Fixed playback pause on headset disconnect",
+  "download_url": "https://aurapodcast.app/download/aura-latest.apk",
+  "mandatory": false
+}

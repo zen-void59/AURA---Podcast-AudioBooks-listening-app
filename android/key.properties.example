@@ -1,0 +1,8 @@
+# Example Android Release Keystore Configuration
+# To use: Copy this file to key.properties and fill in your actual keystore details.
+# DO NOT commit your real key.properties or .jks file to public git repositories!
+
+keyAlias=aura_release_key
+keyPassword=your_keystore_password
+storeFile=../keystore/aura-release-key.jks
+storePassword=your_keystore_password
