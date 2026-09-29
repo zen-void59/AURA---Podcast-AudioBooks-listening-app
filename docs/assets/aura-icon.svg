@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400&amp;display=swap');
+      .aura-text {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+        font-size: 104px;
+        font-weight: 400;
+        letter-spacing: 0.28em;
+        fill: #28231D;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+    </style>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="#FEFAE0"/>
+  <text class="aura-text" x="50%" y="54%">AURA</text>
+</svg>

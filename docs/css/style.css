@@ -152,8 +152,14 @@ section { padding: clamp(4rem, 8vw, 8rem) 0; }
 .nav-logo img {
   width: 36px;
   height: 36px;
-  border-radius: 10px;
-  object-fit: cover;
+  border-radius: 9px;
+  object-fit: contain;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: transform var(--transition-fast);
+}
+
+.nav-logo:hover img {
+  transform: scale(1.06);
 }
 
 .nav-logo-text {
@@ -711,6 +717,13 @@ section { padding: clamp(4rem, 8vw, 8rem) 0; }
   margin: 0 auto 1.5rem;
   overflow: hidden;
   box-shadow: var(--shadow-md), 0 0 32px var(--accent-glow);
+}
+
+.download-card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .download-card h3 {
