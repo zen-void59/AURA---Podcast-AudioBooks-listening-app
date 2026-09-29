@@ -252,7 +252,7 @@
   function generateQR() {
     const container = document.getElementById('qr-display');
     if (!container) return;
-    const downloadUrl = container.dataset.url || 'https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/releases/latest';
+    const downloadUrl = container.dataset.url || 'https://zen-void59.github.io/AURA---Podcast-AudioBooks-listening-app/downloads/aura-v1.0.1.apk';
     // Use Google Charts QR API
     const size = 160;
     const encoded = encodeURIComponent(downloadUrl);
@@ -288,13 +288,15 @@
     // Update version badges
     const vBadges = document.querySelectorAll('[data-version-badge]');
     vBadges.forEach(el => {
-      el.textContent = `v${data.latest_version || '1.0.0'}`;
+      el.textContent = `v${data.latest_version || '1.0.1'}`;
     });
 
-    // Update download link
+    // Update download link (if running on http/https, use full URL; if on file:///, keep relative link)
     const dlLinks = document.querySelectorAll('[data-download-url]');
     dlLinks.forEach(a => {
-      if (data.download_url) a.href = data.download_url;
+      if (window.location.protocol !== 'file:' && data.download_url) {
+        a.href = data.download_url;
+      }
     });
 
     // Update QR container data-url
@@ -354,13 +356,10 @@
   /* ── 13. Download Click Handler ───────────────────────────── */
   document.querySelectorAll('[data-download-url]').forEach(a => {
     a.addEventListener('click', (e) => {
-      // If href is a placeholder or GitHub release page, just let it open
-      if (!a.href || a.href.includes('#')) {
-        e.preventDefault();
-        showToast('APK download link coming soon! Check GitHub Releases.', '📦');
-      } else {
-        showToast('Download started! Check your downloads folder.', '⬇️');
-      }
+      const href = a.getAttribute('href') || '';
+      // If href is a hash link (e.g. #download), let smooth scroll handle it
+      if (href.startsWith('#')) return;
+      showToast('Download started! Check your downloads folder.', '⬇️');
     });
   });
 
