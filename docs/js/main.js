@@ -252,7 +252,7 @@
   function generateQR() {
     const container = document.getElementById('qr-display');
     if (!container) return;
-    const downloadUrl = container.dataset.url || 'https://zen-void59.github.io/AURA---Podcast-AudioBooks-listening-app/downloads/aura-v1.0.1.apk';
+    const downloadUrl = container.dataset.url || 'https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/raw/main/docs/downloads/aura-v1.0.1.apk';
     // Use Google Charts QR API
     const size = 160;
     const encoded = encodeURIComponent(downloadUrl);
@@ -291,10 +291,10 @@
       el.textContent = `v${data.latest_version || '1.0.1'}`;
     });
 
-    // Update download link (if running on http/https, use full URL; if on file:///, keep relative link)
+    // Update download link
     const dlLinks = document.querySelectorAll('[data-download-url]');
     dlLinks.forEach(a => {
-      if (window.location.protocol !== 'file:' && data.download_url) {
+      if (data.download_url) {
         a.href = data.download_url;
       }
     });
