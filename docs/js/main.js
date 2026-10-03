@@ -380,11 +380,16 @@
 
   /* ── 12. Toast Notification ───────────────────────────────── */
   const toast = document.getElementById('toast');
+  let toastTimer = null;
+
   function showToast(msg, icon = '✓') {
     if (!toast) return;
-    toast.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+    toast.innerHTML = `<span style="font-size:1.15rem;">${icon}</span><span>${msg}</span>`;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3200);
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3500);
   }
 
   // Expose globally for download link click
