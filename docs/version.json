@@ -3,8 +3,7 @@
   "version_code": 2,
   "title": "AURA Update Available!",
   "release_notes": "• Enhanced audio playback resilience and buffering\n• Improved LibriVox audiobook covers and chapters\n• Better battery efficiency and UI polish\n• Fixed playback pause on headset disconnect",
-  "download_url": "https://raw.githubusercontent.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/main/docs/downloads/aura-v1.0.1.apk",
+  "download_url": "downloads/aura-v1.0.1.apk",
   "file_size": "34 MB",
   "mandatory": false
 }
-

@@ -252,13 +252,26 @@
   function generateQR() {
     const container = document.getElementById('qr-display');
     if (!container) return;
-    const downloadUrl = container.dataset.url || 'https://github.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/raw/main/docs/downloads/aura-v1.0.1.apk';
-    // Use Google Charts QR API
+    const downloadUrl = container.dataset.url || 'downloads/aura-v1.0.1.apk';
+    // Resolve to an absolute URL so mobile cameras can open the direct download
+    let resolvedUrl = downloadUrl;
+    try {
+      if (!resolvedUrl.startsWith('http://') && !resolvedUrl.startsWith('https://')) {
+        resolvedUrl = new URL(downloadUrl, window.location.href).href;
+      }
+    } catch (_) {}
+
+    // If still not an http/https URL (e.g. running from file://), fallback to direct GitHub raw APK
+    if (!resolvedUrl.startsWith('http://') && !resolvedUrl.startsWith('https://')) {
+      resolvedUrl = 'https://raw.githubusercontent.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/main/docs/downloads/aura-v1.0.1.apk';
+    }
+
+    // Use QR Server API
     const size = 160;
-    const encoded = encodeURIComponent(downloadUrl);
+    const encoded = encodeURIComponent(resolvedUrl);
     const img = document.createElement('img');
     img.src = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}&color=2A2820&bgcolor=FEFBF0&margin=1`;
-    img.alt = 'QR Code';
+    img.alt = 'QR Code to download AURA APK';
     img.style.width = '100%';
     img.style.height = '100%';
     container.innerHTML = '';
@@ -267,10 +280,10 @@
 
   /* ── 10. Live Version from version.json ───────────────────── */
   async function fetchVersionInfo() {
-    // Attempt to read from GitHub raw — update URL to your actual repo
+    // Attempt to read from local site version.json first, then fallback to GitHub raw
     const URLS = [
+      './version.json',
       'https://raw.githubusercontent.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/main/version.json',
-      './version-local.json', // fallback
     ];
 
     for (const url of URLS) {
@@ -291,18 +304,42 @@
       el.textContent = `v${data.latest_version || '1.0.1'}`;
     });
 
-    // Update download link
-    const dlLinks = document.querySelectorAll('[data-download-url]');
-    dlLinks.forEach(a => {
-      if (data.download_url) {
-        a.href = data.download_url;
-      }
-    });
+    // Update download link - STRICTLY ensure it never points to GitHub pages or releases
+    if (data.download_url) {
+      let dlUrl = data.download_url.trim();
 
-    // Update QR container data-url
-    const qrContainer = document.getElementById('qr-display');
-    if (qrContainer && data.download_url) {
-      qrContainer.dataset.url = data.download_url;
+      // If it's a GitHub web page (like /releases or repository root), ignore it to keep direct APK download
+      const isGitHubPage = dlUrl.includes('github.com') && 
+        !dlUrl.endsWith('.apk') && 
+        !dlUrl.includes('/raw/');
+
+      if (!isGitHubPage) {
+        // If it's a github.com/.../raw/... link, convert it to direct raw.githubusercontent.com CDN stream
+        if (dlUrl.includes('github.com') && dlUrl.includes('/raw/')) {
+          dlUrl = dlUrl
+            .replace('https://github.com/', 'https://raw.githubusercontent.com/')
+            .replace('/raw/', '/');
+        }
+
+        const dlLinks = document.querySelectorAll('[data-download-url]');
+        dlLinks.forEach(a => {
+          a.href = dlUrl;
+          a.setAttribute('download', `aura-v${data.latest_version || '1.0.1'}.apk`);
+          a.removeAttribute('target'); // Never open in a new tab/window
+        });
+
+        const qrContainer = document.getElementById('qr-display');
+        if (qrContainer) {
+          qrContainer.dataset.url = dlUrl;
+          generateQR();
+        }
+      }
+    }
+
+    // Update file size if provided
+    const fileSizeEl = document.getElementById('file-size');
+    if (fileSizeEl && data.file_size) {
+      fileSizeEl.textContent = data.file_size;
     }
 
     // Update changelog
@@ -359,9 +396,30 @@
       const href = a.getAttribute('href') || '';
       // If href is a hash link (e.g. #download), let smooth scroll handle it
       if (href.startsWith('#')) return;
+
+      // If running locally from file:// scheme, redirect download to the raw CDN APK
+      // so browser security doesn't block local relative file downloads
+      if (window.location.protocol === 'file:' && !href.startsWith('http')) {
+        e.preventDefault();
+        window.location.href = 'https://raw.githubusercontent.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/main/docs/downloads/aura-v1.0.1.apk';
+      }
+
       showToast('Download started! Check your downloads folder.', '⬇️');
     });
   });
+
+  // Hero download button: smooth scroll to download section as well
+  const heroDlBtn = document.getElementById('hero-dl-btn');
+  if (heroDlBtn) {
+    heroDlBtn.addEventListener('click', () => {
+      const dlSection = document.getElementById('download');
+      if (dlSection) {
+        setTimeout(() => {
+          dlSection.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    });
+  }
 
   /* ── 14. Waveform Visualizer Bars ─────────────────────────── */
   function animateVizBars() {
