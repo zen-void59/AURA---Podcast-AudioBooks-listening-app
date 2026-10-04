@@ -100,7 +100,9 @@ class AuraAudioHandler extends BaseAudioHandler with SeekHandler {
     playbackState.add(playbackState.value.copyWith(
       processingState: AudioProcessingState.idle,
       playing: false,
+      controls: const [],
     ));
+    await super.stop();
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:audio_service/audio_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:aura/core/theme.dart';
 import 'package:aura/core/routes.dart';
 import 'package:aura/providers/audio_provider.dart';
@@ -17,16 +18,22 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
 
-  // Initialize AudioService for background media notification bar
+  // Request notification permission on Android 13+ (API 33+)
+  // Without this runtime grant, the media notification bar will never appear.
+  await Permission.notification.request();
+
   try {
     audioHandler = await AudioService.init(
       builder: () => AuraAudioHandler(),
       config: const AudioServiceConfig(
         androidNotificationChannelId: 'com.aura.podcast.channel.audio',
         androidNotificationChannelName: 'AURA Podcast Playback',
+        androidNotificationChannelDescription: 'Shows playback controls for AURA audio',
         androidNotificationOngoing: true,
         androidStopForegroundOnPause: true,
         androidNotificationIcon: 'mipmap/ic_launcher',
+        androidShowNotificationBadge: true,
+        notificationColor: Color(0xFFB8975A),
       ),
     );
   } catch (e) {

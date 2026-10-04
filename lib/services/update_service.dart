@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -123,13 +124,37 @@ class AppUpdateService {
   Future<bool> launchDownload(String url) async {
     final target = url.trim().isNotEmpty ? url.trim() : AppConstants.defaultWebsiteUrl;
     final uri = Uri.parse(target);
+
+    // 1. Try launching directly in external application (system browser)
+    try {
+      final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (launched) return true;
+    } catch (e) {
+      debugPrint('[AppUpdateService] externalApplication failed: $e');
+    }
+
+    // 2. Try launching in platform default mode
+    try {
+      final launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
+      if (launched) return true;
+    } catch (e) {
+      debugPrint('[AppUpdateService] platformDefault failed: $e');
+    }
+
+    // 3. Fallback: check canLaunchUrl
     try {
       if (await canLaunchUrl(uri)) {
-        return await launchUrl(uri, mode: LaunchMode.externalApplication);
+        return await launchUrl(uri);
       }
     } catch (e) {
-      debugPrint('[AppUpdateService] Failed to launch download URL: $e');
+      debugPrint('[AppUpdateService] canLaunchUrl fallback failed: $e');
     }
+
+    // 4. In-app webview as final fallback
+    try {
+      return await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
+    } catch (_) {}
+
     return false;
   }
 
@@ -270,7 +295,39 @@ class AppUpdateService {
                       flex: update.mandatory ? 1 : 2,
                       child: ElevatedButton.icon(
                         onPressed: () async {
-                          await launchDownload(update.downloadUrl);
+                          ScaffoldMessenger.of(ctx).showSnackBar(
+                            const SnackBar(
+                              content: Text('Opening browser to download APK...'),
+                              duration: Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+
+                          final success = await launchDownload(update.downloadUrl);
+
+                          if (success) {
+                            if (!update.mandatory && ctx.mounted) {
+                              Navigator.of(ctx).pop();
+                              onDismiss?.call();
+                            }
+                          } else {
+                            await Clipboard.setData(ClipboardData(text: update.downloadUrl));
+                            if (ctx.mounted) {
+                              ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Browser could not be opened automatically.\nDownload link copied to clipboard! Paste it into your browser.',
+                                  ),
+                                  duration: const Duration(seconds: 5),
+                                  behavior: SnackBarBehavior.floating,
+                                  action: SnackBarAction(
+                                    label: 'OK',
+                                    onPressed: () {},
+                                  ),
+                                ),
+                              );
+                            }
+                          }
                         },
                         icon: const Icon(Icons.download_rounded, size: 18),
                         label: const Text('Download Update', style: TextStyle(fontWeight: FontWeight.w700)),

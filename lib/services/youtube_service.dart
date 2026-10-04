@@ -18,20 +18,37 @@ class YouTubeService {
       final podcasts = <Podcast>[];
 
       for (final video in searchResults.take(limit)) {
-        podcasts.add(
-          Podcast(
-            id: 'yt_vid_${video.id.value}',
-            name: video.title,
-            description: 'Channel: ${video.author}\n${video.description}',
-            imageUrl: video.thumbnails.highResUrl,
-            headerImageUrl: video.thumbnails.maxResUrl,
-            totalEpisodes: 1,
-            url: video.url,
-            isYouTube: true,
-            youtubeId: video.id.value,
-            channelName: video.author,
-          ),
-        );
+        // Wrap per-video: YouTube API occasionally returns malformed data for
+        // livestreams (e.g. "Streamed" as viewCount → FormatException, or a
+        // missing map key → NoSuchMethodError on getT). Skip bad entries
+        // instead of aborting the whole search.
+        try {
+          // Access fields that may throw for malformed livestream results
+          final title = video.title;
+          final author = video.author;
+          final description = video.description;
+          final thumbHigh = video.thumbnails.highResUrl;
+          final thumbMax = video.thumbnails.maxResUrl;
+          final url = video.url;
+          final id = video.id.value;
+
+          podcasts.add(
+            Podcast(
+              id: 'yt_vid_$id',
+              name: title,
+              description: 'Channel: $author\n$description',
+              imageUrl: thumbHigh,
+              headerImageUrl: thumbMax,
+              totalEpisodes: 1,
+              url: url,
+              isYouTube: true,
+              youtubeId: id,
+              channelName: author,
+            ),
+          );
+        } catch (videoErr) {
+          debugPrint('[YouTubeService] Skipping malformed video result: $videoErr');
+        }
       }
 
       return podcasts;

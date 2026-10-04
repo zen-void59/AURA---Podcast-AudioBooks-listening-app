@@ -1,7 +1,7 @@
 name: aura
 description: "AURA — A minimalist podcast app with warm cream aesthetics."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.2+3
 
 environment:
   sdk: ^3.12.1
@@ -53,6 +53,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   url_launcher: ^6.3.2
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

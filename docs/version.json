@@ -1,9 +1,9 @@
 {
-  "latest_version": "1.0.1",
-  "version_code": 2,
+  "latest_version": "1.0.2",
+  "version_code": 3,
   "title": "AURA Update Available!",
-  "release_notes": "• Enhanced audio playback resilience and buffering\n• Improved LibriVox audiobook covers and chapters\n• Better battery efficiency and UI polish\n• Fixed playback pause on headset disconnect",
-  "download_url": "downloads/aura-v1.0.1.apk",
-  "file_size": "34 MB",
+  "release_notes": "• Paste Link to Play — paste any audio or YouTube link\n• Fixed download update button & direct APK delivery\n• Enhanced audio player buffering & stability\n• Improved LibriVox audiobook integration",
+  "download_url": "downloads/aura-v1.0.2.apk",
+  "file_size": "60 MB",
   "mandatory": false
 }

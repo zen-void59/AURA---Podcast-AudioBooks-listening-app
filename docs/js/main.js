@@ -252,7 +252,7 @@
   function generateQR() {
     const container = document.getElementById('qr-display');
     if (!container) return;
-    const downloadUrl = container.dataset.url || 'downloads/aura-v1.0.1.apk';
+    const downloadUrl = container.dataset.url || 'downloads/aura-v1.0.2.apk';
     // Resolve to an absolute URL so mobile cameras can open the direct download
     let resolvedUrl = downloadUrl;
     try {
@@ -261,9 +261,9 @@
       }
     } catch (_) {}
 
-    // If still not an http/https URL (e.g. running from file://), fallback to direct GitHub raw APK
+    // If still not an http/https URL (e.g. running from file://), fallback to direct APK download
     if (!resolvedUrl.startsWith('http://') && !resolvedUrl.startsWith('https://')) {
-      resolvedUrl = 'https://raw.githubusercontent.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/main/docs/downloads/aura-v1.0.1.apk';
+      resolvedUrl = 'https://podcastapp-iota.vercel.app/downloads/aura-v1.0.2.apk';
     }
 
     // Use QR Server API
@@ -301,7 +301,7 @@
     // Update version badges
     const vBadges = document.querySelectorAll('[data-version-badge]');
     vBadges.forEach(el => {
-      el.textContent = `v${data.latest_version || '1.0.1'}`;
+      el.textContent = `v${data.latest_version || '1.0.2'}`;
     });
 
     // Update download link - STRICTLY ensure it never points to GitHub pages or releases
@@ -324,7 +324,7 @@
         const dlLinks = document.querySelectorAll('[data-download-url]');
         dlLinks.forEach(a => {
           a.href = dlUrl;
-          a.setAttribute('download', `aura-v${data.latest_version || '1.0.1'}.apk`);
+          a.setAttribute('download', `aura-v${data.latest_version || '1.0.2'}.apk`);
           a.removeAttribute('target'); // Never open in a new tab/window
         });
 
@@ -402,11 +402,11 @@
       // If href is a hash link (e.g. #download), let smooth scroll handle it
       if (href.startsWith('#')) return;
 
-      // If running locally from file:// scheme, redirect download to the raw CDN APK
+      // If running locally from file:// scheme, redirect download to the hosted APK
       // so browser security doesn't block local relative file downloads
       if (window.location.protocol === 'file:' && !href.startsWith('http')) {
         e.preventDefault();
-        window.location.href = 'https://raw.githubusercontent.com/zen-void59/AURA---Podcast-AudioBooks-listening-app/main/docs/downloads/aura-v1.0.1.apk';
+        window.location.href = 'https://podcastapp-iota.vercel.app/downloads/aura-v1.0.2.apk';
       }
 
       showToast('Download started! Check your downloads folder.', '⬇️');
